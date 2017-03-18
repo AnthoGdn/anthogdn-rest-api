@@ -49,14 +49,14 @@ public class LanguageDTO extends EntityDTO {
         this.imgURL = imgURL;
     }
 
-//    @Override
-//    public String toString() {
-//        return "LanguageDTO{" +
-//                "id='" + getId() + '\'' +
-//                ", name='" + name + '\'' +
-//                ", level=" + level + '\'' +
-//                ", imgURL='" + imgURL + '\'' +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "LanguageDTO{" +
+                "id='" + getId() + '\'' +
+                ", name='" + name + '\'' +
+                ", level=" + level + '\'' +
+                ", imgURL='" + imgURL + '\'' +
+                '}';
+    }
 }
 

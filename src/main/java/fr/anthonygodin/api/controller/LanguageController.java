@@ -1,5 +1,6 @@
 package fr.anthonygodin.api.controller;
 
+import fr.anthonygodin.api.domain.entity.Language;
 import fr.anthonygodin.api.dto.Entity.LanguageDTO;
 import fr.anthonygodin.api.dto.Entity.LanguageToCreateDTO;
 import fr.anthonygodin.api.dto.Response.DataListResponseDTO;
@@ -28,6 +29,11 @@ public class LanguageController {
 
     @Autowired
     private LanguageService languageService;
+
+    public LanguageController() {}
+    public LanguageController(LanguageService languageService) {
+        this.languageService = languageService;
+    }
 
     @PostMapping
     public ResponseEntity<ResponseDTO> create(@RequestBody LanguageToCreateDTO languageToCreateDTO) {

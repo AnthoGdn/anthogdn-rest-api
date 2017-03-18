@@ -81,6 +81,6 @@ public class Language extends Entity {
 
     // ENUM
     public enum Level {
-        MIDDLE, GOOD, HIGHT;
+        MIDDLE, GOOD, HIGH;
     }
 }

@@ -28,7 +28,6 @@ import static org.mockito.Mockito.when;
 public class LanguageServiceImplTest {
     @Mock
     private LanguageRepository languageRepository;
-    @Mock
     private LanguageServiceImpl languageService;
 
     private final static String LANGUAGE_ID_1 = UUID.randomUUID().toString();
