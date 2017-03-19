@@ -1,38 +1,84 @@
 Feature: Get All languages
   Background:
     Given there are these languages data in database:
-    | id    | name  | level   | url                                     |
-    | 1a    | JAVA  | HIGH    | https://www.anthogdn.fr/public/java.png |
-    | 2a    | PHP   | GOOD    | https://www.anthogdn.fr/public/php.png  |
-    | 3a    | C     | MIDDLE  | https://www.anthogdn.fr/public/c.png    |
-    | 4a    | CSS   | MIDDLE  | https://www.anthogdn.fr/public/css.png  |
+    | id    | name  | level   | url                                     | orderNb |
+    | 1a    | JAVA  | HIGH    | https://www.anthogdn.fr/public/java.png | 1       |
+    | 2a    | PHP   | GOOD    | https://www.anthogdn.fr/public/php.png  | 2       |
+    | 3a    | C     | MIDDLE  | https://www.anthogdn.fr/public/c.png    | 3       |
+    | 4a    | CSS   | MIDDLE  | https://www.anthogdn.fr/public/css.png  | 4       |
 
-  Scenario: I make call to GET /languages
+  Scenario: I make call to GET /languages without query parameters.
     When I set a "GET" request to "/api/languages"
     And I send the request
     Then the response status code is 200
     And the "Content-Type" attribute of the response header is "application/json;charset=UTF-8"
     And the response body matches :
+      | content[0].name         | JAVA                                    |
+      | content[0].level        | HIGH                                    |
+      | content[0].imgURL       | https://www.anthogdn.fr/public/java.png |
 
-#      | data[0].id          | 1a                                      |
-      | data[0].name        | JAVA                                    |
-      | data[0].level       | HIGH                                    |
-      | data[0].imgURL      | https://www.anthogdn.fr/public/java.png |
+      | content[1].name         | PHP                                     |
+      | content[1].level        | GOOD                                    |
+      | content[1].imgURL       | https://www.anthogdn.fr/public/php.png  |
 
-#      | data[1].id          | 2a                                      |
-      | data[1].name        | PHP                                     |
-      | data[1].level       | GOOD                                    |
-      | data[1].imgURL      | https://www.anthogdn.fr/public/php.png  |
+      | content[2].name         | C                                       |
+      | content[2].level        | MIDDLE                                  |
+      | content[2].imgURL       | https://www.anthogdn.fr/public/c.png    |
 
-#      | data[2].id          | 3a                                      |
-      | data[2].name        | C                                       |
-      | data[2].level       | MIDDLE                                  |
-      | data[2].imgURL      | https://www.anthogdn.fr/public/c.png    |
+      | content[3].name         | CSS                                     |
+      | content[3].level        | MIDDLE                                  |
+      | content[3].imgURL       | https://www.anthogdn.fr/public/css.png  |
 
-#      | data[3].id          | 4a                                      |
-      | data[3].name        | CSS                                     |
-      | data[3].level       | MIDDLE                                  |
-      | data[3].imgURL      | https://www.anthogdn.fr/public/css.png  |
+      | last                    | true                                    |
+      | totalElements           | 4                                       |
+      | totalPages              | 1                                       |
+      | first                   | true                                    |
+      | numberOfElements        | 4                                       |
+      | size                    | 10                                      |
+      | number                  | 0                                       |
+
+  Scenario: I make call to GET /languages with page = 0 and perPage = 2.
+    When I set a "GET" request to "/api/languages/?page=0&perPage=2"
+    And I send the request
+    Then the response status code is 200
+    And the "Content-Type" attribute of the response header is "application/json;charset=UTF-8"
+    And the response body matches :
+      | content[0].name         | JAVA                                    |
+      | content[0].level        | HIGH                                    |
+      | content[0].imgURL       | https://www.anthogdn.fr/public/java.png |
+
+      | content[1].name         | PHP                                     |
+      | content[1].level        | GOOD                                    |
+      | content[1].imgURL       | https://www.anthogdn.fr/public/php.png  |
+
+      | last                    | false                                   |
+      | totalElements           | 4                                       |
+      | totalPages              | 2                                       |
+      | first                   | true                                    |
+      | numberOfElements        | 2                                       |
+      | size                    | 2                                       |
+      | number                  | 0                                       |
 
 
-      
+  Scenario: I make call to GET /languages with page = 1 and perPage = 2.
+    When I set a "GET" request to "/api/languages/?page=1&perPage=2"
+    And I send the request
+    Then the response status code is 200
+    And the "Content-Type" attribute of the response header is "application/json;charset=UTF-8"
+    And the response body matches :
+
+      | content[0].name         | C                                       |
+      | content[0].level        | MIDDLE                                  |
+      | content[0].imgURL       | https://www.anthogdn.fr/public/c.png    |
+
+      | content[1].name         | CSS                                     |
+      | content[1].level        | MIDDLE                                  |
+      | content[1].imgURL       | https://www.anthogdn.fr/public/css.png  |
+
+      | last                    | true                                    |
+      | totalElements           | 4                                       |
+      | totalPages              | 2                                       |
+      | first                   | false                                   |
+      | numberOfElements        | 2                                       |
+      | size                    | 2                                       |
+      | number                  | 1                                       |

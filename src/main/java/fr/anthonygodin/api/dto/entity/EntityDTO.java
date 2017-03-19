@@ -1,4 +1,6 @@
-package fr.anthonygodin.api.dto;
+package fr.anthonygodin.api.dto.entity;
+
+import fr.anthonygodin.api.dto.DTO;
 
 /**
  * Created by AnthoGdn on 15/03/17.

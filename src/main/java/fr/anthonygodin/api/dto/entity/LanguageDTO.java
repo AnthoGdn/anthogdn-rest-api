@@ -1,7 +1,6 @@
-package fr.anthonygodin.api.dto.Entity;
+package fr.anthonygodin.api.dto.entity;
 
 import fr.anthonygodin.api.domain.entity.Language;
-import fr.anthonygodin.api.dto.EntityDTO;
 
 /**
  * Created by AnthoGdn on 15/03/17.

@@ -4,7 +4,7 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import fr.anthonygodin.api.Application;
 import fr.anthonygodin.api.domain.entity.Language;
-import fr.anthonygodin.api.dto.Entity.LanguageDTO;
+import fr.anthonygodin.api.dto.entity.LanguageDTO;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -27,18 +27,27 @@ public class LanguagesSteps extends AbstractSteps {
             String name = map.get("name");
             String url = map.get("url");
             Language.Level level = Language.Level.valueOf(map.get("level"));
+            String orderNbString = map.get("orderNb");
+            int orderNb = 0;
+            if (orderNbString != null) {
+                orderNb = Integer.valueOf(orderNbString);
+            }
 
-            persistLanguage(null, name, level, url);
+            persistLanguage(null, name, level, url, orderNb);
         });
     }
 
     // PRIVATE
-    private void persistLanguage(String id, String name, Language.Level level, String url) {
+    private void persistLanguage(String id, String name, Language.Level level, String url, int orderNb) {
         Language language = new Language();
 
         language.setName(name);
         language.setImgURL(url);
         language.setLevel(level);
+        language.setOrderNb(orderNb);
+
+        System.out.println("------------------------------------------------------------------------------------------------");
+        System.out.println(language);
 
         entityManager.persist(language);
     }

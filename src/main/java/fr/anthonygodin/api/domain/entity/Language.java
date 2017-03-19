@@ -20,8 +20,9 @@ public class Language extends Entity {
     private String imgURL;
 
     public Language() {}
-    public Language(String id, String name, Level level, String imgURL) {
+    public Language(String id, String name, Level level, String imgURL, int orderNb) {
         this.setId(id);
+        this.setOrderNb(orderNb);
         this.name = name;
         this.level = level;
         this.imgURL = imgURL;
@@ -48,7 +49,6 @@ public class Language extends Entity {
         this.imgURL = imgURL;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,6 +73,7 @@ public class Language extends Entity {
     public String toString() {
         return "Language{" +
                 "id = '" + getId() + '\'' +
+                ", order = '" + getOrderNb() + '\'' +
                 ", name = '" + name + '\'' +
                 ", level = " + level +
                 ", imgURL ='" + imgURL + '\'' +

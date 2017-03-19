@@ -1,22 +1,25 @@
 package fr.anthonygodin.api.controller;
 
-import fr.anthonygodin.api.domain.entity.Language;
-import fr.anthonygodin.api.dto.Entity.LanguageDTO;
-import fr.anthonygodin.api.dto.Entity.LanguageToCreateDTO;
-import fr.anthonygodin.api.dto.Response.DataListResponseDTO;
-import fr.anthonygodin.api.dto.Response.DataResponseDTO;
-import fr.anthonygodin.api.dto.Response.ErrorResponseDTO;
-import fr.anthonygodin.api.dto.Response.ResponseDTO;
+import fr.anthonygodin.api.dto.entity.LanguageDTO;
+import fr.anthonygodin.api.dto.entity.LanguageToCreateDTO;
+import fr.anthonygodin.api.dto.params.PageParams;
+import fr.anthonygodin.api.dto.response.DataResponseDTO;
+import fr.anthonygodin.api.dto.response.ErrorResponseDTO;
+import fr.anthonygodin.api.dto.response.ResponseDTO;
+import fr.anthonygodin.api.dto.response.util.PageableFactory;
 import fr.anthonygodin.api.exception.RESTException;
-import fr.anthonygodin.api.service.LanguageService;
+import fr.anthonygodin.api.service.CrudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 /**
  * Created by AnthoGdn on 15/03/17.
@@ -28,15 +31,15 @@ public class LanguageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LanguageController.class);
 
     @Autowired
-    private LanguageService languageService;
+    private CrudService<LanguageDTO, LanguageToCreateDTO> languageService;
 
     public LanguageController() {}
-    public LanguageController(LanguageService languageService) {
+    public LanguageController(CrudService<LanguageDTO, LanguageToCreateDTO> languageService) {
         this.languageService = languageService;
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> create(@RequestBody LanguageToCreateDTO languageToCreateDTO) {
+    public ResponseEntity<ResponseDTO> create(@Validated @RequestBody LanguageToCreateDTO languageToCreateDTO) {
         LOGGER.info("REST request to create language : {}", languageToCreateDTO);
         LanguageDTO language = languageService.create(languageToCreateDTO);
         if (language != null) {
@@ -57,11 +60,10 @@ public class LanguageController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> findAll() {
+    public ResponseEntity<Page<LanguageDTO>> findAll(@Valid PageParams pageParams) {
         LOGGER.info("REST request to find all languages");
-        List<LanguageDTO> languages = languageService.findAll();
-        DataListResponseDTO<LanguageDTO> response = new DataListResponseDTO<>();
-        response.setData(languages);
+        Pageable pageable = PageableFactory.getPage(pageParams);
+        Page<LanguageDTO> response = languageService.findAll(pageable);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -76,7 +78,7 @@ public class LanguageController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ResponseDTO> update(@RequestBody LanguageDTO language) throws RESTException {
+    public ResponseEntity<ResponseDTO> update(@Validated @RequestBody LanguageDTO language) throws RESTException {
         LOGGER.info("REST request to update language : {}", language);
         language = languageService.update(language);
         if (language == null) {

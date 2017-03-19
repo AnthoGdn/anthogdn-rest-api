@@ -1,4 +1,4 @@
-package fr.anthonygodin.api.dto.Response;
+package fr.anthonygodin.api.dto.response;
 
 import java.util.List;
 

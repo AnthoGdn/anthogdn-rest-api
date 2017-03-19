@@ -1,6 +1,6 @@
-package fr.anthonygodin.api.dto.Response;
+package fr.anthonygodin.api.dto.response;
 
-import fr.anthonygodin.api.dto.EntityDTO;
+import fr.anthonygodin.api.dto.entity.EntityDTO;
 
 /**
  * Created by AnthoGdn on 16/03/17.

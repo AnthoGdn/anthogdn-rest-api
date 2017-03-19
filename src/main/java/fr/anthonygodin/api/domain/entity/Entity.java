@@ -15,6 +15,9 @@ public abstract class Entity {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
+    @Column()
+    private int orderNb;
+
     public String getId() {
         return id;
     }
@@ -22,4 +25,10 @@ public abstract class Entity {
         this.id = id;
     }
 
+    public int getOrderNb() {
+        return orderNb;
+    }
+    public void setOrderNb(int orderNb) {
+        this.orderNb = orderNb;
+    }
 }
