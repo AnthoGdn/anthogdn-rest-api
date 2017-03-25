@@ -1,5 +1,6 @@
 package fr.anthonygodin.api.service;
 
+
 import fr.anthonygodin.api.domain.entity.Entity;
 import fr.anthonygodin.api.dto.DTO;
 import fr.anthonygodin.api.dto.entity.EntityDTO;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,13 +30,20 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
     protected abstract PagingAndSortingRepository<E, String> getRepository();
 
     @Override
-    public D create(C entityToCreateDTO) {
-        D result = null;
-        E entity = convertCreateDTOToModel(entityToCreateDTO);
-        entity = getRepository().save(entity);
-        getLogger().info(getEntityName() + " is created : {}", entity);
-        if (entity != null) {
-            result = convertModelToDTO(entity);
+    public List<D> create(List<C> entityToCreateDTOList) {
+        List<D> result = null;
+        List<E> entities = new LinkedList<E>();
+        int i = 0;
+        for (C entityToCreate : entityToCreateDTOList) {
+            E entity = convertCreateDTOToModel(entityToCreate);
+            entity.setOrderNb(i);
+            entities.add(entity);
+            ++i;
+        }
+        Iterable<E> createdEntities = getRepository().save(entities);
+        getLogger().info(getEntityName() + " is created : {}", createdEntities);
+        if (createdEntities != null) {
+            result = convertModelListToDTOList(createdEntities);
         }
         return result;
     }
@@ -46,7 +55,7 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
     }
 
     public void delete(String id) throws RESTException {
-        Entity entity = getRepository().findOne(id);
+        E entity = getRepository().findOne(id);
         if (entity == null) {
             throw new RESTException(getErrorNotFound(), id);
         }

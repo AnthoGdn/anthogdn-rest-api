@@ -3,6 +3,7 @@ package fr.anthonygodin.api.controller;
 import fr.anthonygodin.api.dto.entity.LanguageDTO;
 import fr.anthonygodin.api.dto.entity.LanguageToCreateDTO;
 import fr.anthonygodin.api.dto.params.PageParams;
+import fr.anthonygodin.api.dto.response.DataListResponseDTO;
 import fr.anthonygodin.api.dto.response.DataResponseDTO;
 import fr.anthonygodin.api.dto.response.ErrorResponseDTO;
 import fr.anthonygodin.api.dto.response.ResponseDTO;
@@ -20,6 +21,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by AnthoGdn on 15/03/17.
@@ -39,17 +42,10 @@ public class LanguageController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> create(@Validated @RequestBody LanguageToCreateDTO languageToCreateDTO) {
-        LOGGER.info("REST request to create language : {}", languageToCreateDTO);
-        LanguageDTO language = languageService.create(languageToCreateDTO);
-        if (language != null) {
-            DataResponseDTO response = new DataResponseDTO<LanguageDTO>();
-            response.setData(language);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            ErrorResponseDTO response = new ErrorResponseDTO();
-            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<List<LanguageDTO>> create(@Validated @RequestBody List<LanguageToCreateDTO> languageToCreateDTOList) {
+        LOGGER.info("REST request to create language : {}", languageToCreateDTOList);
+        List<LanguageDTO> languages = languageService.create(languageToCreateDTOList);
+        return new ResponseEntity<>(languages, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")

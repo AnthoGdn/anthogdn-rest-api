@@ -15,7 +15,7 @@ import java.util.List;
  * Created by AnthoGdn on 15/03/17.
  */
 public interface CrudService<E extends EntityDTO, C extends DTO> {
-    E create(C entityDTO); // Replace by list of entity
+    List<E> create(List<C> entityDTO);
     void delete(String id) throws RESTException;
     void deleteAll();
     Page<E> findAll(Pageable pageable);

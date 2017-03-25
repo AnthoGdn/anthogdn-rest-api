@@ -1,17 +1,17 @@
 package fr.anthonygodin.api.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 /**
  * Created by AnthoGdn on 15/03/17.
  */
 @javax.persistence.Entity
-@Table(name="language")
+@Table
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-public class Language extends Entity {
+public class Language extends  Entity {
+
     @Column(nullable = false)
     private String name;
     @Column
