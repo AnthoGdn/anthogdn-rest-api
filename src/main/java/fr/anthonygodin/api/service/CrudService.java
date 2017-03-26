@@ -14,8 +14,7 @@ import java.util.List;
 public interface CrudService<E extends EntityDTO, C extends DTO> {
     List<E> create(List<C> entityDTO);
     void delete(String id) throws NotFoundException;
-    void deleteAll();
     Page<E> findAll(Pageable pageable);
     E findById(String id) throws NotFoundException;
-    E update(E entityDTO) throws NotFoundException;
+    E update(String id, C entityDTO) throws NotFoundException;
 }

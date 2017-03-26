@@ -47,12 +47,6 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
         return result;
     }
 
-    @Override
-    public void deleteAll() {
-        getRepository().deleteAll();
-        getLogger().info(getEntityName() + " is deleted all");
-    }
-
     public void delete(String id) throws NotFoundException {
         E entity = getRepository().findOne(id);
         if (entity == null) {
@@ -84,16 +78,15 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
     }
 
     @Override
-    public D update(D entityDTO) throws NotFoundException {
-        String id = entityDTO.getId();
+    public D update(String id, C entityDTO) throws NotFoundException {
         if (!getRepository().exists(id)) {
             throw new NotFoundException(id, getEntityName());
         }
-        D result;
-        E entity = convertDTOToModel(entityDTO);
+        E entity = convertCreateDTOToModel(entityDTO);
+        entity.setId(id);
         entity = getRepository().save(entity);
         getLogger().info(getEntityName() + " is updated : {}", entity);
-        result = convertModelToDTO(entity);
+        D result = convertModelToDTO(entity);
         return result;
     }
 }

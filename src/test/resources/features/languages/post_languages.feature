@@ -50,3 +50,17 @@ Feature: Add languages
       | [3].name         | CSS                                     |
       | [3].level        | MIDDLE                                  |
       | [3].imgURL       | https://www.anthogdn.fr/public/css.png  |
+
+  Scenario: I make call to POST bad entity.
+    When I set a "POST" request to "/api/languages"
+    And the "Content-Type" attribute of the request header is "application/json"
+    And the request body is :
+    """
+      {
+        "toto":"JAVA EE",
+        "level":"GOOD",
+        "imgURL":"https://www.anthogdn.fr/public/javaee.png"
+      }
+    """
+    And I send the request
+    Then the response status code is 400

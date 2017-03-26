@@ -63,10 +63,14 @@ public class LanguageController {
     }
 
     @PutMapping(value = "/{id}")
-    public LanguageDTO update(@Validated @RequestBody LanguageDTO language) throws NotFoundException {
-        LOGGER.info("REST request to update language : {}", language);
-        language = languageService.update(language);
-        return language;
+    @ResponseStatus(HttpStatus.OK)
+    public LanguageDTO update(
+            @PathVariable("id") String id,
+            @Validated @RequestBody LanguageToCreateDTO languageToCreateDTO
+    ) throws NotFoundException {
+        LOGGER.info("REST request to update language : {}", languageToCreateDTO);
+        LanguageDTO languageDTO = languageService.update(id, languageToCreateDTO);
+        return languageDTO;
     }
 }
 
