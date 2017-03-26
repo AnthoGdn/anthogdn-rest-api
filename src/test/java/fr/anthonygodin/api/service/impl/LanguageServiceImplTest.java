@@ -84,7 +84,7 @@ public class LanguageServiceImplTest {
         // Execute the method being tested
         try {
             languageService.delete(LANGUAGE_ID_1);
-        } catch (RESTException exception) {
+        } catch (NotFoundException exception) {
             toVerifyNotFoundException(exception);
             return;
         }
@@ -196,7 +196,7 @@ public class LanguageServiceImplTest {
         // Execute the method being tested
         try {
             languageService.findById(persistedLanguage.getId());
-        } catch (RESTException exception) {
+        } catch (NotFoundException exception) {
             // Validation
             toVerifyNotFoundException(exception);
             return;
@@ -253,7 +253,7 @@ public class LanguageServiceImplTest {
         // Execute the method being tested
         try {
             LanguageDTO createdLanguage = languageService.update(languageToUpdateDTO);
-        } catch (RESTException exception) {
+        } catch (NotFoundException exception) {
             toVerifyNotFoundException(exception);
             return;
         }
@@ -268,7 +268,7 @@ public class LanguageServiceImplTest {
         languages.add(language);
     }
 
-    private void toVerifyNotFoundException(RESTException exception) {
+    private void toVerifyNotFoundException(NotFoundException exception) {
         assertThat(exception.getMessage()).isEqualTo(Error.LANGUAGE_NOT_FOUND.getMessage());
         assertThat(exception.getError()).isEqualTo(Error.LANGUAGE_NOT_FOUND);
     }*/

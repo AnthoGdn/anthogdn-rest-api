@@ -2,10 +2,10 @@ package fr.anthonygodin.api.service;
 
 
 import fr.anthonygodin.api.domain.entity.Entity;
+import fr.anthonygodin.api.domain.entity.Language;
 import fr.anthonygodin.api.dto.DTO;
 import fr.anthonygodin.api.dto.entity.EntityDTO;
-import fr.anthonygodin.api.exception.Error;
-import fr.anthonygodin.api.exception.RESTException;
+import fr.anthonygodin.api.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,7 +25,6 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
     protected abstract List<D> convertModelListToDTOList(Iterable<E> model);
     protected abstract D convertModelToDTO(E model);
     protected abstract String getEntityName();
-    protected abstract Error getErrorNotFound();
     protected abstract Logger getLogger();
     protected abstract PagingAndSortingRepository<E, String> getRepository();
 
@@ -54,10 +53,10 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
         getLogger().info(getEntityName() + " is deleted all");
     }
 
-    public void delete(String id) throws RESTException {
+    public void delete(String id) throws NotFoundException {
         E entity = getRepository().findOne(id);
         if (entity == null) {
-            throw new RESTException(getErrorNotFound(), id);
+            throw new NotFoundException(id, getEntityName());
         }
         getRepository().delete(id);
         getLogger().info(getEntityName() +" is deleted : {}", entity);
@@ -73,11 +72,11 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
     }
 
     @Override
-    public D findById(String id) throws RESTException {
+    public D findById(String id) throws NotFoundException {
         D result;
         E entity = getRepository().findOne(id);
         if (entity == null) {
-            throw new RESTException(getErrorNotFound(), id);
+            throw new NotFoundException(id, getEntityName());
         }
         getLogger().info(getEntityName() + " is found : {}", entity);
         result = convertModelToDTO(entity);
@@ -85,10 +84,10 @@ public abstract class AbstractCrudService<E extends Entity, D extends EntityDTO,
     }
 
     @Override
-    public D update(D entityDTO) throws RESTException {
+    public D update(D entityDTO) throws NotFoundException {
         String id = entityDTO.getId();
         if (!getRepository().exists(id)) {
-            throw new RESTException(getErrorNotFound(), id);
+            throw new NotFoundException(id, getEntityName());
         }
         D result;
         E entity = convertDTOToModel(entityDTO);

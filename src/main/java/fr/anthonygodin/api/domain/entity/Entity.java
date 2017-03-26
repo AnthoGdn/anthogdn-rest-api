@@ -1,34 +1,28 @@
 package fr.anthonygodin.api.domain.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import java.util.UUID;
 
 /**
  * Created by AnthoGdn on 15/03/17.
  */
+@Getter
+@Setter
 @javax.persistence.Entity
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public abstract class Entity {
-
     @Column(length = 36)
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
-
     @Column()
     private int orderNb;
 
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getOrderNb() {
-        return orderNb;
-    }
-    public void setOrderNb(int orderNb) {
-        this.orderNb = orderNb;
+    public Entity() {
+        this.id = UUID.randomUUID().toString();
     }
 }

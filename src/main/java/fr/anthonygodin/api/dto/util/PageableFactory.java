@@ -1,7 +1,6 @@
-package fr.anthonygodin.api.dto.response.util;
+package fr.anthonygodin.api.dto.util;
 
 import fr.anthonygodin.api.dto.params.PageParams;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

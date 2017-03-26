@@ -3,9 +3,9 @@ package fr.anthonygodin.api.service.impl;
 import fr.anthonygodin.api.domain.entity.Language;
 import fr.anthonygodin.api.dto.entity.LanguageDTO;
 import fr.anthonygodin.api.dto.entity.LanguageToCreateDTO;
-import fr.anthonygodin.api.exception.Error;
 import fr.anthonygodin.api.repository.LanguageRepository;
 import fr.anthonygodin.api.service.AbstractCrudService;
+import fr.anthonygodin.api.dto.mapper.LanguageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +25,16 @@ public class LanguageServiceImpl extends AbstractCrudService<Language, LanguageD
 
     @Autowired
     private LanguageRepository languageRepository;
-
+    LanguageMapper languageMapper;
 
     @Override
     protected Language convertCreateDTOToModel(LanguageToCreateDTO languageToCreateDTO) {
-        Language language = new Language();
-
-        language.setName(languageToCreateDTO.getName());
-        language.setLevel(languageToCreateDTO.getLevel());
-        language.setImgURL(languageToCreateDTO.getImgURL());
-
-        return language;
+        return languageMapper.createDTOToModel(languageToCreateDTO);
     }
 
     @Override
     protected Language convertDTOToModel(LanguageDTO languageDTO) {
-        Language language = new Language();
-
-        language.setId(languageDTO.getId());
-        language.setName(languageDTO.getName());
-        language.setLevel(languageDTO.getLevel());
-        language.setImgURL(languageDTO.getImgURL());
-
-        return language;
+        return languageMapper.DTOToModel(languageDTO);
     }
 
     @Override
@@ -55,7 +42,7 @@ public class LanguageServiceImpl extends AbstractCrudService<Language, LanguageD
         List<LanguageDTO> dtos = new LinkedList<>();
         LanguageDTO languageDTO;
         for (Language language : languages) {
-            languageDTO = new LanguageDTO(language);
+            languageDTO = languageMapper.modelToDTO(language);
             dtos.add(languageDTO);
         }
         return dtos;
@@ -63,17 +50,12 @@ public class LanguageServiceImpl extends AbstractCrudService<Language, LanguageD
 
     @Override
     protected LanguageDTO convertModelToDTO(Language language) {
-        return new LanguageDTO(language);
+        return languageMapper.modelToDTO(language);
     }
 
     @Override
     protected String getEntityName() {
         return "Language";
-    }
-
-    @Override
-    protected Error getErrorNotFound() {
-        return Error.LANGUAGE_NOT_FOUND;
     }
 
     @Override

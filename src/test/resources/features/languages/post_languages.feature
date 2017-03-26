@@ -1,6 +1,5 @@
 Feature: Add languages
 
-
   Scenario: I make call to POST /languages.
     When I set a "POST" request to "/api/languages"
     And the "Content-Type" attribute of the request header is "application/json"

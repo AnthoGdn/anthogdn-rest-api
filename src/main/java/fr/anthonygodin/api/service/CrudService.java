@@ -1,11 +1,8 @@
 package fr.anthonygodin.api.service;
 
-import fr.anthonygodin.api.domain.entity.Language;
 import fr.anthonygodin.api.dto.DTO;
 import fr.anthonygodin.api.dto.entity.EntityDTO;
-import fr.anthonygodin.api.dto.params.PageParams;
-import fr.anthonygodin.api.exception.RESTException;
-import fr.anthonygodin.api.dto.params.OrderBy;
+import fr.anthonygodin.api.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,9 +13,9 @@ import java.util.List;
  */
 public interface CrudService<E extends EntityDTO, C extends DTO> {
     List<E> create(List<C> entityDTO);
-    void delete(String id) throws RESTException;
+    void delete(String id) throws NotFoundException;
     void deleteAll();
     Page<E> findAll(Pageable pageable);
-    E findById(String id) throws RESTException;
-    E update(E entityDTO) throws RESTException;
+    E findById(String id) throws NotFoundException;
+    E update(E entityDTO) throws NotFoundException;
 }
