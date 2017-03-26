@@ -1,8 +1,5 @@
 package fr.anthonygodin.api.repository;
 
-import fr.anthonygodin.api.domain.entity.Language;
-import org.springframework.data.repository.PagingAndSortingRepository;
-
 import java.io.Serializable;
 
 /**
