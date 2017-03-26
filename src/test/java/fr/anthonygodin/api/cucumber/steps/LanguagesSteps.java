@@ -3,8 +3,8 @@ package fr.anthonygodin.api.cucumber.steps;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import fr.anthonygodin.api.Application;
+import fr.anthonygodin.api.domain.Level;
 import fr.anthonygodin.api.domain.entity.Language;
-import fr.anthonygodin.api.dto.entity.LanguageDTO;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -30,7 +30,7 @@ public class LanguagesSteps extends AbstractSteps {
             String id = map.get("id");
             String name = map.get("name");
             String url = map.get("url");
-            Language.Level level = Language.Level.valueOf(map.get("level"));
+            Level level = Level.valueOf(map.get("level"));
             String orderNbString = map.get("orderNb");
             int orderNb = 0;
             if (orderNbString != null) {
@@ -47,11 +47,11 @@ public class LanguagesSteps extends AbstractSteps {
 
         boolean isCorrectLanguageTableSize = languageTableSizeIs(maps.size());
         assertTrue(isCorrectLanguageTableSize);
-        languageTableIscorrect(maps);
+        languageTableIsCorrect(maps);
     }
 
     // PRIVATE
-    private void persistLanguage(String id, String name, Language.Level level, String url, int orderNb) {
+    private void persistLanguage(String id, String name, Level level, String url, int orderNb) {
         Language language = new Language();
 
         language.setId(id);
@@ -71,12 +71,12 @@ public class LanguagesSteps extends AbstractSteps {
         return sizeLanguageTable == size;
     }
 
-    private void languageTableIscorrect(List<Map<String, String>> maps) {
+    private void languageTableIsCorrect(List<Map<String, String>> maps) {
         maps.forEach(map -> {
             String id = map.get("id");
             String name = map.get("name");
             String url = map.get("url");
-            Language.Level level = Language.Level.valueOf(map.get("level"));
+            Level level = Level.valueOf(map.get("level"));
 
             String orderNbString = map.get("orderNb");
             int orderNb = 0;
@@ -90,7 +90,7 @@ public class LanguagesSteps extends AbstractSteps {
         });
     }
 
-    private void languageIsInDatabase(String name, Language.Level level, String url, int orderNb) {
+    private void languageIsInDatabase(String name, Level level, String url, int orderNb) {
         Language language = entityManager.createQuery(
                 "SELECT l FROM Language l WHERE " +
                         "l.name = :nameL AND l.level = :levelL AND l.imgURL = :urlL AND l.orderNb = :orderNbL"
@@ -103,7 +103,7 @@ public class LanguagesSteps extends AbstractSteps {
         assertThat(language).isNotNull();
     }
 
-    private void languageIsInDatabase(String id, String name, Language.Level level, String url, int orderNb) {
+    private void languageIsInDatabase(String id, String name, Level level, String url, int orderNb) {
         Language language = entityManager.createQuery(
                 "SELECT l FROM Language l WHERE " +
                         "l.id = :idL AND l.name = :nameL AND l.level = :levelL AND l.imgURL = :urlL AND l.orderNb = :orderNbL"

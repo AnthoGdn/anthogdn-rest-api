@@ -1,6 +1,5 @@
 package fr.anthonygodin.api.domain.entity;
 
-import fr.anthonygodin.api.domain.Level;
 import lombok.Data;
 import javax.persistence.Column;
 
@@ -9,11 +8,10 @@ import javax.persistence.Column;
  */
 @Data
 @javax.persistence.Entity
-public class Tool extends Entity {
+public class Interest extends Entity {
     @Column(nullable = false)
     private String name;
-    @Column
-    private Level level;
     @Column(nullable = false)
     private String imgURL;
+    private String type;
 }

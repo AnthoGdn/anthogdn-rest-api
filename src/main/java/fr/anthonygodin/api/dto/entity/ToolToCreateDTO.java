@@ -1,6 +1,6 @@
 package fr.anthonygodin.api.dto.entity;
 
-import fr.anthonygodin.api.domain.entity.Language;
+import fr.anthonygodin.api.domain.Level;
 import fr.anthonygodin.api.dto.DTO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class ToolToCreateDTO implements DTO {
     @NotNull
     private String name;
     @NotNull
-    private Language.Level level;
+    private Level level;
     @NotNull
     private String imgURL;
 }

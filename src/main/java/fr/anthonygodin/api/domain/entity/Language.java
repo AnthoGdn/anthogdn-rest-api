@@ -1,5 +1,6 @@
 package fr.anthonygodin.api.domain.entity;
 
+import fr.anthonygodin.api.domain.Level;
 import lombok.Data;
 import javax.persistence.Column;
 
@@ -15,9 +16,4 @@ public class Language extends Entity {
     private Level level;
     @Column(nullable = false)
     private String imgURL;
-
-    // ENUM
-    public enum Level {
-        MIDDLE, GOOD, HIGH;
-    }
 }

@@ -1,6 +1,6 @@
 package fr.anthonygodin.api.dto.entity;
 
-import fr.anthonygodin.api.domain.entity.Language;
+import fr.anthonygodin.api.domain.Level;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class ToolDTO extends EntityDTO {
     private String name;
-    private Language.Level level;
+    private Level level;
     private String imgURL;
 }
 

@@ -3,6 +3,7 @@ package fr.anthonygodin.api.cucumber.steps;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import fr.anthonygodin.api.Application;
+import fr.anthonygodin.api.domain.Level;
 import fr.anthonygodin.api.domain.entity.Tool;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,7 +30,7 @@ public class ToolsSteps extends AbstractSteps {
             String id = map.get("id");
             String name = map.get("name");
             String url = map.get("url");
-            Tool.Level level = Tool.Level.valueOf(map.get("level"));
+            Level level = Level.valueOf(map.get("level"));
             String orderNbString = map.get("orderNb");
             int orderNb = 0;
             if (orderNbString != null) {
@@ -46,11 +47,11 @@ public class ToolsSteps extends AbstractSteps {
 
         boolean isCorrectToolTableSize = toolTableSizeIs(maps.size());
         assertTrue(isCorrectToolTableSize);
-        toolTableIscorrect(maps);
+        toolTableIsCorrect(maps);
     }
 
     // PRIVATE
-    private void persistTool(String id, String name, Tool.Level level, String url, int orderNb) {
+    private void persistTool(String id, String name, Level level, String url, int orderNb) {
         Tool tool = new Tool();
 
         tool.setId(id);
@@ -70,12 +71,12 @@ public class ToolsSteps extends AbstractSteps {
         return sizeToolTable == size;
     }
 
-    private void toolTableIscorrect(List<Map<String, String>> maps) {
+    private void toolTableIsCorrect(List<Map<String, String>> maps) {
         maps.forEach(map -> {
             String id = map.get("id");
             String name = map.get("name");
             String url = map.get("url");
-            Tool.Level level = Tool.Level.valueOf(map.get("level"));
+            Level level = Level.valueOf(map.get("level"));
 
             String orderNbString = map.get("orderNb");
             int orderNb = 0;
@@ -89,7 +90,7 @@ public class ToolsSteps extends AbstractSteps {
         });
     }
 
-    private void toolIsInDatabase(String name, Tool.Level level, String url, int orderNb) {
+    private void toolIsInDatabase(String name, Level level, String url, int orderNb) {
         Tool tool = entityManager.createQuery(
                 "SELECT l FROM Tool l WHERE " +
                         "l.name = :nameL AND l.level = :levelL AND l.imgURL = :urlL AND l.orderNb = :orderNbL"
@@ -102,7 +103,7 @@ public class ToolsSteps extends AbstractSteps {
         assertThat(tool).isNotNull();
     }
 
-    private void toolIsInDatabase(String id, String name, Tool.Level level, String url, int orderNb) {
+    private void toolIsInDatabase(String id, String name, Level level, String url, int orderNb) {
         Tool tool = entityManager.createQuery(
                 "SELECT l FROM Tool l WHERE " +
                         "l.id = :idL AND l.name = :nameL AND l.level = :levelL AND l.imgURL = :urlL AND l.orderNb = :orderNbL"
