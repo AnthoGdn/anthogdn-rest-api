@@ -22,11 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class IndexControllerTest {
 
     private MockMvc mockMvc;
-    private IndexController controller;
 
     @Before
     public void setUp() throws Exception {
-        controller = new IndexController();
+        IndexController controller = new IndexController();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
