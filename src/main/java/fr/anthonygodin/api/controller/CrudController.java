@@ -27,7 +27,7 @@ public abstract class CrudController<EDTO extends EntityDTO, ToCreateDTO extends
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public List<EDTO> create(@Validated @RequestBody List<ToCreateDTO> entityToCreateDTOList) {
-        getLogger().info("REST request to create entity : {}", entityToCreateDTOList);
+        getLogger().debug("REST request to create entity : {}", entityToCreateDTOList);
         List<EDTO> entities = getService().create(entityToCreateDTOList);
         return entities;
     }
@@ -35,14 +35,14 @@ public abstract class CrudController<EDTO extends EntityDTO, ToCreateDTO extends
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) throws NotFoundException {
-        getLogger().info("REST request to delete entity : {}", id);
+        getLogger().debug("REST request to delete entity : {}", id);
         getService().delete(id);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<EDTO> findAll(@Valid PageParams pageParams) {
-        getLogger().info("REST request to find all entities");
+        getLogger().debug("REST request to find all entities");
         Pageable pageable = PageableFactory.getPage(pageParams);
         Page<EDTO> response = getService().findAll(pageable);
         return response;
@@ -51,7 +51,7 @@ public abstract class CrudController<EDTO extends EntityDTO, ToCreateDTO extends
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public EDTO findById(@PathVariable("id") String id) throws NotFoundException {
-        getLogger().info("REST request to find entity by id : {}", id);
+        getLogger().debug("REST request to find entity by id : {}", id);
         EDTO entity = getService().findById(id);
         return entity;
     }
@@ -62,7 +62,7 @@ public abstract class CrudController<EDTO extends EntityDTO, ToCreateDTO extends
             @PathVariable("id") String id,
             @Validated @RequestBody ToCreateDTO entityToCreateDTO
     ) throws NotFoundException {
-        getLogger().info("REST request to update entity : {}", entityToCreateDTO);
+        getLogger().debug("REST request to update entity : {}", entityToCreateDTO);
         EDTO entityDTO = getService().update(id, entityToCreateDTO);
         return entityDTO;
     }
